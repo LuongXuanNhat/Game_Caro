@@ -16,5 +16,6 @@ namespace Game_Caro
         public static int COOL_DOWN_STEP = 100;
         public static int COOL_DOWN_TIME = 10000;
         public static int COOL_DOWN_INTERVAL = 100;
+        public static int COOL_DOWN_TIME1MINUTE = 60000;
     }
 }

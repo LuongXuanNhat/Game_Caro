@@ -27,11 +27,10 @@ namespace Game_Caro
             {
                 return false;
             }
-            
         }
         #endregion
 
-        #region Server
+        #region server
         Socket server;
         public void CreateServer()
         {
@@ -69,11 +68,27 @@ namespace Game_Caro
         }
         public bool SendData(Socket target, byte[] data)
         {
-            return target.Send(data) == 1 ? true : false;
+            try
+            {
+                return target.Send(data) == 1  ? true : false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         public bool ReceiveData(Socket target, byte[] data)
         {
-            return target.Receive(data) == 1 ? true : false;
+            try
+            {
+                return target.Receive(data) == 1 ? true : false;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         public byte[] SerializeData(Object o)
         {

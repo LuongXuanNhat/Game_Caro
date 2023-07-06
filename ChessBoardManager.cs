@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,8 +28,8 @@ namespace Game_Caro
         public List<List<Button>> Matrix { get => matrix; set => matrix = value; }
         public Stack<PlayInfor> PlayTimeLine { get => playTimeLine; set => playTimeLine = value; }
 
-        private event EventHandler playerMarked;
-        public event EventHandler PlayerMarked
+        private event EventHandler<ButtonClickEvent> playerMarked;
+        public event EventHandler<ButtonClickEvent> PlayerMarked
         {
             add
             {
@@ -75,8 +76,9 @@ namespace Game_Caro
         #region Methods
         public void DrawChessBoard()
         {
-            ChessBoard.Enabled = true;
+            
             ChessBoard.Controls.Clear();
+            ChessBoard.Enabled = false;
             PlayTimeLine = new Stack<PlayInfor>();
             CurrentPlayer = 0;
             ChangePlayer();
@@ -119,22 +121,42 @@ namespace Game_Caro
             Button btn = sender as Button;
             if (btn.BackgroundImage != null)
                 return;
+
             ChangeMark(btn);
 
             PlayTimeLine.Push(new PlayInfor (GetChessPoint(btn), CurrentPlayer));
             
-            currentPlayer = CurrentPlayer == 0 ? 1 : 0;
+            currentPlayer = CurrentPlayer == 1 ? 0 : 1;
             ChangePlayer();
 
             if (playerMarked != null)
-                playerMarked(this, new EventArgs());
+                playerMarked(this, new ButtonClickEvent(GetChessPoint(btn)));
 
             if (isEndGame(btn))
             {
                 EndGame();
-            }
+            }  
+        }
+        public void OtherPlayerMark(Point point)
+        {
+            Button btn = Matrix[point.Y][point.X];
 
-            
+            if (btn.BackgroundImage != null)
+                return;
+
+            ChangeMark(btn);
+
+            PlayTimeLine.Push(new PlayInfor(GetChessPoint(btn), CurrentPlayer));
+
+            currentPlayer = CurrentPlayer == 1 ? 0 : 1;
+            ChangePlayer();
+
+            if (isEndGame(btn))
+            {
+                CustomMessageBox message = new CustomMessageBox("You win!", Color.Green);
+                message.ShowDialog();
+                EndGame();
+            }
         }
         private void EndGame()
         {
@@ -144,11 +166,21 @@ namespace Game_Caro
         }
         public bool Undo()
         {
-            if(PlayTimeLine.Count <= 0) return false;
+            if (PlayTimeLine.Count <= 0) return false;
+            bool isUndo1 = UndoAStep();
+            bool isUndo2 = UndoAStep();
+
+            PlayInfor oldPoint = PlayTimeLine.Peek();
+            CurrentPlayer = oldPoint.Curent_Player == 1 ? 0 : 1;
+            return isUndo1 && isUndo2;
+        }
+        private bool UndoAStep()
+        {
+            if (PlayTimeLine.Count <= 0) return false;
             PlayInfor oldPoint = PlayTimeLine.Pop();
             Button btn = Matrix[oldPoint.Point.Y][oldPoint.Point.X];
             btn.BackgroundImage = null;
-            
+
             if (PlayTimeLine.Count <= 0)
             {
                 CurrentPlayer = 0;
@@ -156,11 +188,12 @@ namespace Game_Caro
             else
             {
                 oldPoint = PlayTimeLine.Peek();
-                CurrentPlayer = oldPoint.Curent_Player == 1 ? 0 : 1;
+              //  CurrentPlayer = oldPoint.Curent_Player == 1 ? 0 : 1;
             }
             ChangePlayer();
             return true;
         }
+
         private bool isEndGame(Button btn)
         {
             return isEndHorizontal(btn) || isEndVertical(btn) || isEndPrimary(btn) || isEndSub(btn);
@@ -273,6 +306,16 @@ namespace Game_Caro
         }
         #endregion
 
+    }
 
+    public class ButtonClickEvent : EventArgs
+    {
+        private Point clickedPoint;
+
+        public ButtonClickEvent(Point point)
+        {
+            this.ClickedPoint = point;
+        }
+        public Point ClickedPoint { get => clickedPoint; set => clickedPoint = value; }
     }
 }

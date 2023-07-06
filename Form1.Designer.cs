@@ -32,9 +32,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             pnlChessBeard = new Panel();
             panel2 = new Panel();
+            pctbXO = new PictureBox();
+            lbNameXO = new Label();
+            lbRole = new Label();
             pctbAvatar = new PictureBox();
             panel3 = new Panel();
-            label1 = new Label();
+            lbLoading = new Label();
             btnLan = new Button();
             pctbMark = new PictureBox();
             prcbCoolDown = new ProgressBar();
@@ -48,6 +51,7 @@
             quitToolStripMenuItem = new ToolStripMenuItem();
             toolStripMenuItem1 = new ToolStripMenuItem();
             panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pctbXO).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pctbAvatar).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pctbMark).BeginInit();
@@ -66,11 +70,45 @@
             // panel2
             // 
             panel2.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            panel2.BackColor = SystemColors.ButtonHighlight;
+            panel2.Controls.Add(pctbXO);
+            panel2.Controls.Add(lbNameXO);
+            panel2.Controls.Add(lbRole);
             panel2.Controls.Add(pctbAvatar);
             panel2.Location = new Point(12, 477);
             panel2.Name = "panel2";
             panel2.Size = new Size(114, 114);
             panel2.TabIndex = 0;
+            // 
+            // pctbXO
+            // 
+            pctbXO.BackColor = SystemColors.ButtonHighlight;
+            pctbXO.Location = new Point(66, 89);
+            pctbXO.Name = "pctbXO";
+            pctbXO.Size = new Size(25, 25);
+            pctbXO.SizeMode = PictureBoxSizeMode.StretchImage;
+            pctbXO.TabIndex = 4;
+            pctbXO.TabStop = false;
+            // 
+            // lbNameXO
+            // 
+            lbNameXO.AutoSize = true;
+            lbNameXO.Font = new Font("SFU Futura", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            lbNameXO.Location = new Point(6, 89);
+            lbNameXO.Name = "lbNameXO";
+            lbNameXO.Size = new Size(0, 21);
+            lbNameXO.TabIndex = 4;
+            // 
+            // lbRole
+            // 
+            lbRole.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            lbRole.AutoSize = true;
+            lbRole.Font = new Font("Montserrat Medium", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            lbRole.ForeColor = Color.Crimson;
+            lbRole.Location = new Point(20, 2);
+            lbRole.Name = "lbRole";
+            lbRole.Size = new Size(0, 27);
+            lbRole.TabIndex = 4;
             // 
             // pctbAvatar
             // 
@@ -88,7 +126,7 @@
             // 
             panel3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel3.BackColor = SystemColors.ControlLightLight;
-            panel3.Controls.Add(label1);
+            panel3.Controls.Add(lbLoading);
             panel3.Controls.Add(btnLan);
             panel3.Controls.Add(pctbMark);
             panel3.Controls.Add(prcbCoolDown);
@@ -99,16 +137,13 @@
             panel3.Size = new Size(753, 114);
             panel3.TabIndex = 0;
             // 
-            // label1
+            // lbLoading
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Montserrat ExtraBold", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.ForeColor = Color.LimeGreen;
-            label1.Location = new Point(180, 10);
-            label1.Name = "label1";
-            label1.Size = new Size(262, 39);
-            label1.TabIndex = 4;
-            label1.Text = "5 in a line to win";
+            lbLoading.AutoSize = true;
+            lbLoading.Location = new Point(355, 50);
+            lbLoading.Name = "lbLoading";
+            lbLoading.Size = new Size(0, 20);
+            lbLoading.TabIndex = 4;
             // 
             // btnLan
             // 
@@ -218,6 +253,8 @@
             FormClosing += Form1_FormClosed;
             Shown += Form1_Shown;
             panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pctbXO).EndInit();
             ((System.ComponentModel.ISupportInitialize)pctbAvatar).EndInit();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
@@ -241,7 +278,7 @@
         private Button btnLan;
         private PictureBox pictureBox2;
         private TextBox txbIP;
-        private Label label1;
+        private Label lbRole;
         private System.Windows.Forms.Timer tmCoolDown;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem menuToolStripMenuItem;
@@ -249,5 +286,8 @@
         private ToolStripMenuItem newGameToolStripMenuItem;
         private ToolStripMenuItem undoToolStripMenuItem;
         private ToolStripMenuItem quitToolStripMenuItem;
+        private Label lbNameXO;
+        private PictureBox pctbXO;
+        private Label lbLoading;
     }
 }

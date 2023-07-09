@@ -7,3 +7,5 @@ Caro Game offers an intuitive user interface, providing an enjoyable gaming expe
 
 Get ready for an engaging and addictive gaming experience with Caro Game, where victory awaits those who can outmaneuver their opponents and achieve the elusive five-in-a-row sequence!
 
+The code is learned from Kteam: https://www.youtube.com/playlist?list=PL33lvabfss1yCEzvLavt8jD4daqpejzwN
+

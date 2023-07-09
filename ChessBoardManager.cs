@@ -134,7 +134,10 @@ namespace Game_Caro
 
             if (isEndGame(btn))
             {
-                EndGame();
+                CustomMessageBox message = new CustomMessageBox("You win!", Color.Green);
+                message.ShowDialog();
+                
+              //  EndGame();
             }  
         }
         public void OtherPlayerMark(Point point)
@@ -153,8 +156,7 @@ namespace Game_Caro
 
             if (isEndGame(btn))
             {
-                CustomMessageBox message = new CustomMessageBox("You win!", Color.Green);
-                message.ShowDialog();
+                
                 EndGame();
             }
         }

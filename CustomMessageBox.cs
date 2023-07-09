@@ -16,7 +16,7 @@ namespace Game_Caro
             Text = "Message";
 
             // Đặt thuộc tính Size để điều chỉnh kích thước của cửa sổ
-            Size = new Size(300, 150);
+            Size = new Size(400, 150);
 
             // Đặt thuộc tính StartPosition để đặt vị trí xuất hiện của cửa sổ
             StartPosition = FormStartPosition.CenterScreen;
@@ -30,6 +30,7 @@ namespace Game_Caro
             label.ForeColor = textColor;
             label.Dock = DockStyle.Fill;
             label.TextAlign = ContentAlignment.MiddleCenter;
+            label.Font = new Font("Mulish", 18, FontStyle.Bold);
 
             // Thêm Label vào Controls của cửa sổ
             Controls.Add(label);

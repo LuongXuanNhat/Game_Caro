@@ -31,7 +31,8 @@ namespace Game_Caro
         NOTIFY,
         NEW_GAME,
         UNDO,
-        END_GAME,
+        END_GAME_LOSS,
+        END_GAME_WIN,
         TIME_OUT,
         QUIT,
         CONNECT_SUCCESS

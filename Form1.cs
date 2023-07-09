@@ -50,9 +50,7 @@ namespace Game_Caro
         void ChessBoard_EndedGame(object sender, EventArgs e)
         {
             EndGame();
-
-
-            socket.Send(new SocketData((int)SocketComand.END_GAME, "", new Point()));
+            socket.Send(new SocketData((int)SocketComand.END_GAME_LOSS, "", new Point()));
 
         }
 
@@ -62,8 +60,9 @@ namespace Game_Caro
             if (prcbCoolDown.Value >= prcbCoolDown.Maximum)
             {
                 EndGame();
-                socket.Send(new SocketData((int)SocketComand.TIME_OUT, "", new Point()));
-
+                socket.Send(new SocketData((int)SocketComand.END_GAME_WIN, "", new Point()));
+                CustomMessageBox message = new CustomMessageBox("You loss!", Color.Green);
+                message.ShowDialog();
             }
         }
 
@@ -133,9 +132,9 @@ namespace Game_Caro
             socket.IP = txbIP.Text;
             if (!socket.ConnectServer())
             {
-                prcbCoolDown.Maximum = Constant.COOL_DOWN_TIME1MINUTE;
-                tmCoolDown.Start();
-                lbLoading.Text = "Đang chờ đối thủ";
+                //prcbCoolDown.Maximum = Constant.COOL_DOWN_TIME1MINUTE;
+                //tmCoolDown.Start();
+                //lbLoading.Text = "Đang chờ đối thủ";
                 socket.isServer = true;
                 pnlChessBeard.Enabled = true;
                 socket.CreateServer();
@@ -145,6 +144,7 @@ namespace Game_Caro
                 pctbXO.Image = global::Game_Caro.Properties.Resources.x;
                 pctbXO.BackgroundImageLayout = ImageLayout.Stretch;
                 pnlChessBeard.Enabled = true;
+                
             }
             else
             {
@@ -157,9 +157,10 @@ namespace Game_Caro
                 lbNameXO.Text = "You are ";
                 pctbXO.Image = global::Game_Caro.Properties.Resources.o1;
                 pctbXO.BackgroundImageLayout = ImageLayout.Stretch;
-                socket.Send(new SocketData((int)SocketComand.CONNECT_SUCCESS, "", new Point()));
+              //  socket.Send(new SocketData((int)SocketComand.CONNECT_SUCCESS, "", new Point()));
                 Listen();
             }
+            
         }
 
         private void Form1_Shown(object sender, EventArgs e)
@@ -226,10 +227,15 @@ namespace Game_Caro
                     Undo();
                     prcbCoolDown.Value = 0;
                     break;
-                case (int)SocketComand.END_GAME:
+                case (int)SocketComand.END_GAME_WIN:
                     prcbCoolDown.Value = 0;
-                    CustomMessageBox message = new CustomMessageBox("Game Over! You loss!", Color.BlueViolet);
+                    CustomMessageBox message = new CustomMessageBox("You Win!", Color.Green);
                     message.ShowDialog();
+                    break;
+                case (int)SocketComand.END_GAME_LOSS:
+                    prcbCoolDown.Value = 0;
+                    CustomMessageBox message1 = new CustomMessageBox("Game Over! You loss!", Color.BlueViolet);
+                    message1.ShowDialog();
                     break;
                 case (int)SocketComand.TIME_OUT:
                     MessageBox.Show("Time out");
@@ -239,15 +245,12 @@ namespace Game_Caro
                     MessageBox.Show("The opponent has left the game");
                     break;
                 case (int)SocketComand.CONNECT_SUCCESS:
-                    //this.Invoke((MethodInvoker)(() =>
-                    //{
-                    //    tmCoolDown.Stop();
-                    //    prcbCoolDown.Value = 0;
-                    //    lbLoading.Text = "Kết nối thành công";
-                    //}));
-                    tmCoolDown.Stop();
-                    prcbCoolDown.Value = 0;
-                    lbLoading.Text = "Kết nối thành công";
+                    this.Invoke((MethodInvoker)(() =>
+                    {
+                        tmCoolDown.Stop();
+                        prcbCoolDown.Value = 0;
+                        lbLoading.Text = "Kết nối thành công";
+                    }));
                     break;
 
             }
